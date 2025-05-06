@@ -18,7 +18,7 @@ function Inicio() {
   return (
     <div className="container-fluid d-flex flex-column justify-content-center align-items-center min-vh-100">
       <div className="text-center">
-        <h1 className="display-4 mb-4">EQUIPO Y NOMBRE DE </h1>
+        <h1 className="display-4 mb-4">EQUIPO Y NOMBRE DE GRUPO</h1>
         <h2 className="mb-5">{equipoInfo.nombre}</h2>
         
         <h3 className="text-danger mb-4">INTEGRANTES</h3>
