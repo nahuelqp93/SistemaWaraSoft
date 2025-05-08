@@ -1,14 +1,53 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Chat = () => {
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState([]);
+    const navigate = useNavigate();
+    const userName = localStorage.getItem('userName') || 'Usuario#Anonimo';
+    const roomCode = localStorage.getItem('roomCode') || '0000'; 
+    const [socket, setSocket] = useState(null);
+
+    useEffect(() => {
+        const ws = new WebSocket('ws://localhost:3000');
+        setSocket(ws);
+
+        ws.onopen = () => {
+            console.log('Conectado al servidor WebSocket');
+            ws.send(JSON.stringify({ type: 'joinRoom', userName }));
+        };
+
+        ws.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+            setMessages((prevMessages) => [...prevMessages, data.message]);
+        };
+
+        ws.onclose = (event) => {
+            console.log('Desconectado del servidor WebSocket', event.reason);
+        };
+
+        return () => {
+            if (ws.readyState === WebSocket.OPEN) {
+                ws.send(JSON.stringify({ type: 'leaveRoom', userName }));
+            }
+            ws.close();
+        };
+    }, [userName]);
 
     const handleSendMessage = () => {
-        if (message.trim()) {
-            setMessages([...messages, message]);
+        if (message.trim() && socket && socket.readyState === WebSocket.OPEN) {
+            socket.send(JSON.stringify({ type: 'sendMessage', userName, message }));
             setMessage('');
         }
+    };
+
+    const handleSalirChat = () => {
+        if (socket && socket.readyState === WebSocket.OPEN) {
+            socket.send(JSON.stringify({ type: 'leaveRoom', userName }));
+            socket.close();
+        }
+        navigate('/HomeDerick');
     };
 
     return (
@@ -16,7 +55,7 @@ const Chat = () => {
             <div style={{ width: '400px', padding: '16px', border: '1px solid #ccc', borderRadius: '8px' }}>
                 <h1 className="text-center mb-4">INTERCOM</h1>
                 <p className="text-center text-muted mb-4" style={{ fontSize: '20px' }}>
-                    Código de sala: 
+                    Código de sala: {roomCode}
                 </p>
                 <div
                     style={{
@@ -42,7 +81,7 @@ const Chat = () => {
                         </div>
                     ))}
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center' }}>
+                <div style={{ display: 'flex', alignItems: 'center', marginBottom: '16px' }}>
                     <input
                         type="text"
                         value={message}
@@ -70,6 +109,20 @@ const Chat = () => {
                         Enviar
                     </button>
                 </div>
+                <button
+                    onClick={handleSalirChat}
+                    style={{
+                        backgroundColor: 'red',
+                        color: 'white',
+                        padding: '8px 16px',
+                        border: 'none',
+                        borderRadius: '4px',
+                        cursor: 'pointer',
+                        width: '100%',
+                    }}
+                >
+                    ABANDONAR CHAT
+                </button>
             </div>
         </div>
     );
