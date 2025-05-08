@@ -1,12 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const HomeDerick = () => {
+const Home = () => {
     const [showForm, setShowForm] = useState(false);
     const [code, setCode] = useState('');
+    const [userName, setUserName] = useState('');
     const navigate = useNavigate();
-    const userName = localStorage.getItem('userName') || 'Usuario#Anonimo';
+
+    useEffect(() => {
+        const storedUserName = localStorage.getItem('userName');
+        if (!storedUserName) {
+            navigate('/Inicio');
+            return;
+        }
+        setUserName(storedUserName);
+    }, [navigate]);
 
     const handleUnirChat = () => {
         setShowForm(!showForm);
@@ -18,13 +27,18 @@ const HomeDerick = () => {
 
     const handleEnviar = (e) => {
         e.preventDefault();
-        alert(`Código ingresado: ${code}`);
+        if (code.length === 4) {
+            localStorage.setItem('roomCode', code);
+            navigate('/Chat');
+        } else {
+            alert('Por favor, ingresa un código válido de 4 dígitos');
+        }
     };
 
     const handleCrearSala = () => {
         const roomCode = String(Math.floor(Math.random() * 10000)).padStart(4, '0');
-        localStorage.setItem('roomCode', roomCode); 
-        navigate('/Chat'); 
+        localStorage.setItem('roomCode', roomCode);
+        navigate('/Chat');
     };
 
     return (
@@ -64,4 +78,5 @@ const HomeDerick = () => {
     );
 };
 
-export default HomeDerick;
+export default Home;
+

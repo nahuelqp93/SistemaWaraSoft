@@ -1,35 +1,45 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../styles/Inicio.css';
 
 function Inicio() {
-  const [equipoInfo, setEquipoInfo] = useState({
-    nombre: '',
-    integrantes: []
-  });
+  const navigate = useNavigate();
+  const [userName, setUserName] = useState('');
 
-  useEffect(() => {
-    fetch('http://localhost:3000/api/equipo')
-      .then(res => res.json())
-      .then(data => setEquipoInfo(data))
-      .catch(error => console.error('Error:', error));
-  }, []);
+  const handleContinuar = () => {
+    if (userName.trim()) {
+      localStorage.setItem('userName', userName);
+      navigate('/Home');
+    } else {
+      alert('Por favor, ingresa un nombre de usuario');
+    }
+  };
 
   return (
     <div className="container-fluid d-flex flex-column justify-content-center align-items-center min-vh-100">
       <div className="text-center">
-        <h1 className="display-4 mb-4">EQUIPO Y NOMBRE DE GRUPO</h1>
-        <h2 className="mb-5">{equipoInfo.nombre}</h2>
-        
-        <h3 className="text-danger mb-4">INTEGRANTES</h3>
-        <ul className="list-unstyled">
-          {equipoInfo.integrantes.map((integrante, index) => (
-            <li key={index} className="mb-2 fs-5">{integrante}</li>
-          ))}
-        </ul>
+        <h1 className="mb-5">INTERCOM</h1>
+
+        <div className="mb-4">
+          <input
+            type="text"
+            className="form-control text-center"
+            value={userName}
+            onChange={(e) => setUserName(e.target.value)}
+            placeholder="Ingrese su nombre de usuario"
+            style={{ maxWidth: '300px' }}
+          />
+        </div>
+
+        <button 
+          className="btn btn-primary btn-lg"
+          onClick={handleContinuar}
+        >
+          Continuar
+        </button>
       </div>
     </div>
   );
 }
 
-export default Inicio; 
+export default Inicio;
