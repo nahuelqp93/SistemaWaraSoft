@@ -162,9 +162,18 @@ const Chat = () => {
                 margin: 'clamp(100px, 15vh, 150px) auto'
             }}>
                 <h1 className="text-center mb-4" style={{ 
-                    fontSize: 'clamp(1.8rem, 4vw, 2.5rem)',
-                    marginBottom: 'clamp(1rem, 2vw, 1.5rem)'
-                }}>INTERCOM</h1>
+                fontSize: 'clamp(1.8rem, 4vw, 2.5rem)',
+                 marginBottom: 'clamp(1rem, 2vw, 1.5rem)',
+                background: 'linear-gradient(45deg, #3a7bd5, #00d2ff)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                fontWeight: 800,
+                fontFamily: '"Poppins", sans-serif',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '10px'
+                }}>💬 INTERCOM</h1>
                 <p className="text-center text-muted mb-2" style={{ 
                     fontSize: 'clamp(1.1rem, 2.5vw, 1.5rem)',
                     marginBottom: 'clamp(0.5rem, 1vw, 1rem)'
@@ -202,31 +211,45 @@ const Chat = () => {
                         No hay conexión con el servidor. Por favor, intenta recargar la página.
                     </div>
                 )}
-                <div
-                    style={{
-                        border: '1px solid #ccc',
-                        borderRadius: '8px',
-                        padding: 'clamp(8px, 2vw, 12px)',
-                        height: 'clamp(300px, 60vh, 600px)',
-                        overflowY: 'auto',
-                        marginBottom: 'clamp(16px, 3vw, 24px)',
-                        backgroundColor: '#fff',
-                        fontSize: 'clamp(14px, 2vw, 16px)'
+                <div style={{
+                    border: '1px solid #e0e0e0',
+                    borderRadius: '12px',
+                    padding: '16px',
+                    height: 'clamp(300px, 60vh, 600px)',
+                    overflowY: 'auto',
+                    marginBottom: '24px',
+                    backgroundColor: '#f9f9f9',
+                    backgroundImage: 'linear-gradient(to bottom, #f5f7fa 0%, #ffffff 100%)',
+                    boxShadow: 'inset 0 1px 3px rgba(0,0,0,0.05)'
                     }}
                 >
-                    {messages.length === 0 ? (
-                        <div className="text-center text-muted" style={{ 
-                            fontSize: 'clamp(14px, 2vw, 18px)',
-                            padding: 'clamp(16px, 3vw, 24px)'
+                     {messages.length === 0 ? (
+                        <div className="text-center" style={{ 
+                            padding: '40px',
+                            color: '#6c757d',
+                            fontSize: '18px',
+                            fontStyle: 'italic'
                         }}>
                             No hay mensajes aún. ¡Sé el primero en escribir!
                         </div>
                     ) : (
-                        messages.map((msg, index) => {
-                            const senderName = msg.split('[')[0]?.trim() || '';
-                            const isOwnMessage = senderName === userName;
-                            const isNotification = !msg.includes(':');
-                            
+                         messages.map((msg, index) => {
+                        const senderName = msg.split('[')[0]?.trim() || '';
+                        const isOwnMessage = senderName === userName;
+                        const isNotification = !msg.includes(':');
+                            const messageStyle = {
+                            marginBottom: '12px',
+                            padding: '12px 16px',
+                            borderRadius: isOwnMessage ? '18px 18px 4px 18px' : '18px 18px 18px 4px',
+                            background: isOwnMessage ? '#007bff' : '#ffffff',
+                            color: isOwnMessage ? 'white' : '#333',
+                            textAlign: isOwnMessage ? 'right' : 'left',
+                            maxWidth: '80%',
+                            wordBreak: 'break-word',
+                            boxShadow: '0 2px 4px rgba(0,0,0,0.05)',
+                            fontSize: '15px',
+                            border: isOwnMessage ? 'none' : '1px solid #e0e0e0'
+            };
                             let formattedMessage = msg;
                             if (!isNotification && msg.includes('[') && msg.includes(']:')) {
                                 try {
@@ -256,30 +279,37 @@ const Chat = () => {
                             }
                             
                             return (
-                                <div
-                                    key={index}
-                                    style={{
-                                        marginBottom: 'clamp(8px, 2vw, 12px)',
-                                        padding: 'clamp(8px, 2vw, 12px)',
-                                        background: isNotification ? '#e9ecef' : (isOwnMessage ? '#007bff' : '#f1f1f1'),
-                                        color: isOwnMessage ? 'white' : 'black',
-                                        borderRadius: '6px',
-                                        textAlign: isOwnMessage ? 'right' : 'left',
-                                        marginLeft: isOwnMessage ? 'auto' : '0',
-                                        marginRight: isOwnMessage ? '0' : 'auto',
-                                        maxWidth: 'min(85%, 600px)',
-                                        wordBreak: 'break-word',
-                                        fontStyle: isNotification ? 'italic' : 'normal',
-                                        fontSize: 'clamp(14px, 2vw, 16px)'
-                                    }}
-                                >
-                                    {formattedMessage}
-                                </div>
-                            );
-                        })
-                    )}
-                    <div ref={messagesEndRef} />
-                </div>
+                                        <div
+                                            key={index}
+                                            style={messageStyle}
+                                        >
+                                            {!isNotification && (
+                                                <div style={{
+                                                    fontWeight: 'bold',
+                                                    marginBottom: '4px',
+                                                    fontSize: '14px',
+                                                    color: isOwnMessage ? 'rgba(255,255,255,0.9)' : '#007bff'
+                                                }}>
+                                                    {senderName}
+                                                </div>
+                                            )}
+                                            {msg.split(']: ')[1] || msg}
+                                            {!isNotification && (
+                                                <div style={{
+                                                    fontSize: '12px',
+                                                    opacity: 0.7,
+                                                    marginTop: '4px',
+                                                    textAlign: isOwnMessage ? 'right' : 'left'
+                                                }}>
+                                                    {msg.match(/\[(.*?)\]/)?.[1] || ''}
+                                                </div>
+                                            )}
+                                        </div>
+                                    );
+                                })
+                            )}
+                            <div ref={messagesEndRef} />
+                        </div>
                 <div style={{ 
                     display: 'flex', 
                     alignItems: 'center', 
