@@ -189,20 +189,74 @@ const Chat = () => {
                 <button
                     onClick={handleSalirChat}
                     style={{
-                        backgroundColor: 'red',
+                        backgroundColor: '#ff4444',  
                         color: 'white',
-                        padding: 'clamp(8px, 2vw, 12px) clamp(16px, 3vw, 24px)',
+                        padding: '12px 24px',
                         border: 'none',
-                        borderRadius: '4px',
+                        borderRadius: '8px',  
                         cursor: 'pointer',
                         width: '100%',
-                        marginBottom: 'clamp(16px, 3vw, 24px)',
-                        fontSize: 'clamp(14px, 2vw, 16px)',
-                        fontWeight: 'bold'
+                        marginBottom: '20px',
+                        fontSize: '16px',
+                        fontWeight: '600',
+                        letterSpacing: '0.5px',  
+                        textTransform: 'uppercase',
+                        boxShadow: '0 4px 6px rgba(255, 68, 68, 0.2)',  
+                        transition: 'all 0.3s ease',  
+                        position: 'relative',
+                        overflow: 'hidden',
+                        ':hover': {
+                            backgroundColor: '#ff3333',  
+                            transform: 'translateY(-2px)',  
+                            boxShadow: '0 6px 8px rgba(255, 68, 68, 0.3)'
+                        },
+                        ':active': {
+                            transform: 'translateY(0)',  
+                            boxShadow: '0 2px 4px rgba(255, 68, 68, 0.2)'
+                        },
+                        ':after': {  
+                            content: '""',
+                            position: 'absolute',
+                            top: '50%',
+                            left: '50%',
+                            width: '5px',
+                            height: '5px',
+                            background: 'rgba(255, 255, 255, 0.5)',
+                            opacity: '0',
+                            borderRadius: '100%',
+                            transform: 'scale(1, 1) translate(-50%)',
+                            transformOrigin: '50% 50%'
+                        },
+                        ':focus:not(:active)::after': {
+                            animation: 'ripple 1s ease-out'
+                        }
                     }}
                 >
-                    ABANDONAR CHAT
+                    <span style={{ 
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        justifyContent: 'center',
+                        gap: '8px'
+                    }}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path d="M16 17l5-5-5-5M19.8 12H4" strokeWidth="2" strokeLinecap="round"/>
+                        </svg>
+                        ABANDONAR CHAT
+                    </span>
                 </button>
+
+                <style>{`
+                    @keyframes ripple {
+                        0% {
+                            transform: scale(0, 0);
+                            opacity: 1;
+                        }
+                        100% {
+                            transform: scale(20, 20);
+                            opacity: 0;
+                        }
+                    }
+                `}</style>
                 {!isConnected && (
                     <div className="alert alert-warning text-center mb-3" style={{
                         fontSize: 'clamp(14px, 2vw, 16px)',
@@ -335,21 +389,57 @@ const Chat = () => {
                         }}
                     />
                     <button
-                        onClick={handleSendMessage}
-                        disabled={!isConnected}
-                        style={{
-                            backgroundColor: isConnected ? 'blue' : '#cccccc',
-                            color: 'white',
-                            padding: 'clamp(8px, 2vw, 12px) clamp(16px, 3vw, 24px)',
-                            border: 'none',
-                            borderRadius: '4px',
-                            cursor: isConnected ? 'pointer' : 'not-allowed',
-                            fontSize: 'clamp(14px, 2vw, 16px)',
-                            whiteSpace: 'nowrap'
-                        }}
-                    >
-                        Enviar
-                    </button>
+                            onClick={handleSendMessage}
+                            disabled={!isConnected}
+                            style={{
+                                backgroundColor: isConnected ? '#007bff' : '#e9ecef',
+                                color: isConnected ? 'white' : '#6c757d',
+                                padding: '12px 24px',
+                                border: 'none',
+                                borderRadius: '8px',
+                                cursor: isConnected ? 'pointer' : 'not-allowed',
+                                fontSize: '16px',
+                                fontWeight: '600',
+                                whiteSpace: 'nowrap',
+                                letterSpacing: '0.5px',
+                                boxShadow: isConnected ? '0 2px 4px rgba(0, 123, 255, 0.2)' : 'none',
+                                transition: 'all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1)',
+                                position: 'relative',
+                                overflow: 'hidden',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                gap: '8px',
+                                ':hover': {
+                                    backgroundColor: isConnected ? '#0069d9' : '#e9ecef',
+                                    transform: isConnected ? 'translateY(-1px)' : 'none',
+                                    boxShadow: isConnected ? '0 4px 8px rgba(0, 123, 255, 0.25)' : 'none'
+                                },
+                                ':active': {
+                                    transform: isConnected ? 'translateY(0)' : 'none',
+                                    boxShadow: isConnected ? '0 2px 4px rgba(0, 123, 255, 0.2)' : 'none'
+                                },
+                                ':disabled': {
+                                    opacity: '0.7'
+                                }
+                            }}
+                        >
+                            {isConnected ? (
+                                <>
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                        <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" strokeLinecap="round" strokeLinejoin="round"/>
+                                    </svg>
+                                    Enviar
+                                </>
+                            ) : (
+                                <>
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" strokeLinecap="round" strokeLinejoin="round"/>
+                                    </svg>
+                                    Desconectado
+                                </>
+                            )}
+                        </button>
                 </div>
             </div>
 
@@ -377,22 +467,23 @@ const Chat = () => {
                     color: 'white',
                     fontSize: '40px'
                 }}>
-                    👤
-                </div>
-                <div style={{
-                    textAlign: 'center',
-                    fontSize: '16px',
-                    fontWeight: 'bold',
-                    color: '#495057'
-                }}>
+                     👤
+                 </div>
+                    <div style={{
+                            textAlign: 'center',
+                            fontSize: '16px',
+                            fontWeight: 'bold',
+                            color: '#495057'
+                    }}>
                     CANTIDAD DE USUARIOS:
-                </div>
-                <div style={{
-                    fontSize: '24px',
-                    fontWeight: 'bold',
-                    color: '#007bff'
-                }}>
-                    {connectedUsers}
+                        </div>
+                        <div style={{
+                            fontSize: '24px',
+                            fontWeight: 'bold',
+                            color: '#007bff',
+                            textAlign: 'center'
+                        }}>
+                            {connectedUsers}
                 </div>
             </div>
         </div>
