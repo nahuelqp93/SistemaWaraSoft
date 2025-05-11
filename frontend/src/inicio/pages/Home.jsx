@@ -15,6 +15,13 @@ const Home = () => {
             return;
         }
         setUserName(storedUserName);
+        
+        // Asegurarnos de que exista un ID de sesión
+        if (!sessionStorage.getItem('sessionId')) {
+            const sessionId = Math.random().toString(36).substring(2, 15);
+            sessionStorage.setItem('sessionId', sessionId);
+            console.log('Nuevo ID de sesión generado:', sessionId);
+        }
     }, [navigate]);
 
     const handleUnirChat = () => {
@@ -28,6 +35,9 @@ const Home = () => {
     const handleEnviar = (e) => {
         e.preventDefault();
         if (code.length === 4) {
+            // Limpiar el flag de abandono de sala para permitir unirse de nuevo
+            sessionStorage.removeItem(`left_${code}`);
+            
             localStorage.setItem('roomCode', code);
             navigate('/Chat');
         } else {
@@ -37,6 +47,10 @@ const Home = () => {
 
     const handleCrearSala = () => {
         const roomCode = String(Math.floor(Math.random() * 10000)).padStart(4, '0');
+        
+        // Limpiar el flag de abandono de sala para permitir unirse de nuevo
+        sessionStorage.removeItem(`left_${roomCode}`);
+        
         localStorage.setItem('roomCode', roomCode);
         navigate('/Chat');
     };
