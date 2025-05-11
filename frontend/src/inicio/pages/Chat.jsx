@@ -92,7 +92,7 @@ const Chat = () => {
             return;
         }
 
-        const ws = new WebSocket('ws://localhost:3002');
+        const ws = new WebSocket('ws://localhost:3000');
         setSocket(ws);
 
         ws.onopen = () => {

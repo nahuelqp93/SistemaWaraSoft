@@ -2,7 +2,7 @@ const WebSocket = require('ws');
 const path = require('path');
 const fs = require('fs');
 
-const PORT = 3002;
+const PORT = 3000;
 const RECONNECTION_WINDOW = 10000;
 const MESSAGE_STATUS = {
   SENT: 'sent',

@@ -1,0 +1,106 @@
+.message {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin: 8px 0;
+    padding: 8px;
+    background-color: #f0f2f5;
+    border-radius: 8px;
+    position: relative;
+}
+
+.message-content {
+    flex: 1;
+    padding-right: 24px; /* Espacio para el indicador */
+}
+
+.message-status {
+    position: absolute;
+    right: 8px;
+    bottom: 8px;
+    font-size: 14px;
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.message-status.sending {
+    color: #666;
+}
+
+.message-status.delivered {
+    color: #0084ff;
+}
+
+.message-status.error {
+    color: #ff3b30;
+}
+
+/* Estilo para el contenedor de mensajes */
+.messages-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 16px;
+    overflow-y: auto;
+    max-height: calc(100vh - 200px);
+}
+
+/* Estilo para el formulario de mensajes */
+.message-form {
+    display: flex;
+    gap: 8px;
+    padding: 16px;
+    background-color: white;
+    border-top: 1px solid #e0e0e0;
+}
+
+.message-form input {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid #e0e0e0;
+    border-radius: 20px;
+    outline: none;
+}
+
+.message-form button {
+    padding: 8px 16px;
+    background-color: #0084ff;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.message-form button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+/* Estilo para el encabezado del chat */
+.chat-header {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 2px 2px;
+    background-color: white;
+    border-bottom: 1px solid #e0e0e0;
+    gap: 2px;
+}
+
+.chat-header h2 {
+    margin: 0;
+    color: #1a1a1a;
+    font-size: 1.2rem;
+    margin-right: 4px;
+}
+
+.user-count {
+    color: #666;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    margin-left: 4px;
+} 
