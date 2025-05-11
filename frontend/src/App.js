@@ -12,21 +12,10 @@ const RootRedirect = () => {
   const userName = localStorage.getItem('userName');
   
   useEffect(() => {
-    // Si el usuario tiene un nombre y está en una sala, redirigir al chat
-    if (userName && roomCode) {
-      navigate('/Chat', { replace: true });
-    }
-    // Si tiene nombre pero no está en sala, redirigir a Home
-    else if (userName) {
-      navigate('/Home', { replace: true });
-    }
-    // Sin autenticación, ir a Inicio
-    else {
-      navigate('/Inicio', { replace: true });
-    }
-  }, [navigate, userName, roomCode]);
+    navigate('/Inicio', { replace: true });
+  }, [navigate]);
   
-  return null; // Este componente solo maneja redirección, no renderiza nada
+  return null;
 };
 
 // Componente para proteger rutas que requieren autenticación
