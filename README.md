@@ -16,9 +16,7 @@ cd backend
 
 npm install
 
-npm install ws
-
-node socket/server.js
+npm start
 
 ### 3. Ejecutar el Frontend (React)
 
@@ -28,13 +26,4 @@ npm install
 
 npm start
 
-### Pruebas de Funcionamiento
-
-### 1. Para ver si el back esta corriendo bien
-
-http://localhost:3000/api/hello
-
-### 2. Para ver la interfaz en el front 
-
-http://localhost:3001
 
