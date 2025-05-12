@@ -20,20 +20,28 @@ function Inicio() {
     });
   }, []);
 
+  const generarNombreAleatorio = () => {
+    const numero = Math.floor(Math.random() * 1000) + 1; 
+    return `user${numero}`;
+  };
+
   const handleContinuar = () => {
-    if (userName.trim()) {
-      // Guardar nombre de usuario
-      localStorage.setItem('userName', userName);
-      
-      // Generar un nuevo ID de sesión
-      const sessionId = Math.random().toString(36).substring(2, 15);
-      sessionStorage.setItem('sessionId', sessionId);
-      console.log('Nuevo ID de sesión generado:', sessionId);
-      
-      navigate('/Home');
-    } else {
-      alert('Por favor, ingresa un nombre de usuario');
+    let nombreFinal = userName.trim();
+    
+    if (!nombreFinal) {
+      nombreFinal = generarNombreAleatorio();
+      setUserName(nombreFinal);
     }
+    
+    // Guardar nombre de usuario
+    localStorage.setItem('userName', nombreFinal);
+    
+    // Generar un nuevo ID de sesión
+    const sessionId = Math.random().toString(36).substring(2, 15);
+    sessionStorage.setItem('sessionId', sessionId);
+    console.log('Nuevo ID de sesión generado:', sessionId);
+    
+    navigate('/Home');
   };
 
   return (
@@ -47,7 +55,7 @@ function Inicio() {
             className="form-control text-center"
             value={userName}
             onChange={(e) => setUserName(e.target.value)}
-            placeholder="Ingrese su nombre de usuario"
+            placeholder="Ingrese su nombre de usuario (opcional)"
             style={{ maxWidth: '300px' }}
           />
         </div>
